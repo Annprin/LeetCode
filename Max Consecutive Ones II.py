@@ -1,27 +1,24 @@
-def MaxConsecutive(arr):
-    begin, end, inv = 0, 0, 0
-    max_count = 0
-    for i in arr:
-        if i == 1 and inv == 0:
-            begin += 1
-        elif i == 1 and inv == 1:
-            end += 1
-        elif i == 0 and inv == 0:
-            inv = 1
-        else:
-            count = begin + inv + end
-            max_count = count if count > max_count else max_count
-            begin = end
-            end = 0
-            inv = 0
+class Solution:
+    def findMaxConsecutiveOnes(self, nums):
+        n, ans = len(nums), 0
+        pre = [0 for _ in range(n)]
+        suff = [0 for _ in range(n)]
 
-    count = begin + inv + end
-    max_count = count if count > max_count else max_count
-    return max_count
-    
-# Test 1
-print(MaxConsecutive([1,0,0,0,1]))
+        for i in range(n):
+            if i: pre[i] = pre[i - 1]
+            if nums[i]: pre[i] += 1
+            else: pre[i] = 0
+            ans = max(ans, pre[i])
 
-
-# Test 2
-print(MaxConsecutive([1,1,0,1,1]))
+        for i in range(n -1, -1, -1):
+            if i < n - 1: suff[i] = suff[i + 1]
+            if nums[i]: suff[i] += 1
+            else: suff[i] = 0
+            
+        for i in range(n):
+            if nums[i]: continue
+            res = 0
+            if i > 0: res += pre[i - 1]
+            if i < n - 1: res += suff[i + 1]
+            ans = max(ans, res + 1)
+        return ans

@@ -5,16 +5,16 @@
 # the earliest timestamp starts at 1.
 
 # It is possible that several hits arrive roughly at the same time.
-
+from collections import deque
 
 class HitCounter:
     def __init__(self):
         self.times = deque()
     
     def hit(self, time):
-        self.append(time)
+        self.times.append(time)
     
     def getHits(self, time):
-        while self.times and time - self.times[0] > 300:
+        while self.times and time - self.times[0] >= 300:
             self.times.popleft()
         return len(self.times)

@@ -5,8 +5,7 @@ class Solution(object):
         :rtype: bool
         """
         res = s.lower()
-        res = re.sub(r'[^a-zA-Z0-9\s]','',res)
-        res = res.replace(" ", "")
+        res = re.sub(r'[^a-zA-Z0-9]','',res)
 
         start = 0
         end = len(res) - 1
